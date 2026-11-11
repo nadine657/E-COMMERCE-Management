@@ -1,3 +1,4 @@
+
 package com.example.E_commerce.Model;
 
 import jakarta.persistence.*;
@@ -5,15 +6,20 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     private String name;
-    private  int quantity;
+    private int quantity;
     private double price;
+
+    @Enumerated(EnumType.STRING)
     private Eproduct category;
 
-    public Product(long id, String name, int quantity, double price, Eproduct category) {
+    // Constructor
+    public Product(Long id, String name, int quantity, double price, Eproduct category) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
@@ -21,14 +27,16 @@ public class Product {
         this.category = category;
     }
 
+    // Default constructor
     public Product() {
     }
 
-    public long getId() {
+    // Getters and setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
