@@ -1,36 +1,44 @@
+
 package com.example.E_commerce.Model;
 
 import jakarta.persistence.*;
-
 import java.sql.Timestamp;
 
 @Entity
-@Table(name ="order")
+@Table(name = "customer_orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="customer_id")
-    private Customer customer ;
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+    @Enumerated(EnumType.STRING)
     private EStatus status;
+
     private Timestamp created_at;
 
-    public Order(long id, Customer customer, EStatus status, Timestamp created_at) {
+
+    public Order() {
+    }
+
+
+    public Order(Long id, Customer customer, EStatus status, Timestamp created_at) {
         this.id = id;
         this.customer = customer;
         this.status = status;
         this.created_at = created_at;
     }
 
-    public Order() {
-    }
-
-    public long getId() {
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,12 +65,16 @@ public class Order {
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
+    @PrePersist
+    protected void onCreate() {
+        created_at = new Timestamp(System.currentTimeMillis());
+    }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", customer=" + customer +
+                ", customer=" + (customer != null ? customer.getId() : null) +
                 ", status=" + status +
                 ", created_at=" + created_at +
                 '}';
